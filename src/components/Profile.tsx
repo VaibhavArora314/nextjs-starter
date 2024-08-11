@@ -11,6 +11,7 @@ export default async function Profile() {
         <div className="text-white">
           <p><strong>Name:</strong> {session?.user?.name}</p>
           <p><strong>Email:</strong> {session?.user?.email}</p>
+          <p>{JSON.stringify(session)}</p>
         </div>
       </div>
     </div>

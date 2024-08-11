@@ -2,6 +2,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { AuthOptions } from "next-auth";
+import prisma from "@/db";
+import { createHash, validatePassword } from "./hash";
+import { generateRandomString } from "./random";
 
 export const NEXT_AUTH_OPTIONS:AuthOptions = {
     providers: [
@@ -19,12 +22,21 @@ export const NEXT_AUTH_OPTIONS:AuthOptions = {
           const email = credentials.email;
           const password = credentials.password;
   
-          // get user from db and validate
-          // if (!user || !passwordMatch) return null;
+          const user = await prisma.user.findUnique({
+            where: {
+              email
+            }
+          })
+
+          if (!user) return null;
+
+          const isPasswordValid = validatePassword(password,user.passwordHash);
+          if (!isPasswordValid) return null;
+
           return {
-            id: "user1",
-            name: "vaibhav",
-            email,
+            id: user.id,
+            name: user.username,
+            email: user.email,
           };
         },
       }),
@@ -38,6 +50,34 @@ export const NEXT_AUTH_OPTIONS:AuthOptions = {
       })
     ],
     callbacks: {
+      async signIn({ user, account, profile, email, credentials }) {
+        if (account?.provider === "google" || account?.provider === "github") {
+          const emailValue = user.email || "";
+
+          let userInDb = await prisma.user.findUnique({
+            where: {
+              email: emailValue
+            }
+          })
+
+          console.log(userInDb);
+
+          if (!userInDb) {
+            const randomPwdHash = await createHash(generateRandomString(20));
+
+            userInDb = await prisma.user.create({
+              data: {
+                email: emailValue,
+                username: user.name || generateRandomString(15),
+                passwordHash: randomPwdHash
+              }
+            })
+
+            console.log("User created");
+          }
+        }
+        return true
+      },
       jwt: ({ token, user }: any) => {
         if (user) {
           token.userId = user.id;
