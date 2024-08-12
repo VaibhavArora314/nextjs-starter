@@ -30,7 +30,8 @@ export const NEXT_AUTH_OPTIONS:AuthOptions = {
 
           if (!user) return null;
 
-          const isPasswordValid = validatePassword(password,user.passwordHash);
+          const isPasswordValid = await validatePassword(password,user.passwordHash);
+          console.log(isPasswordValid);
           if (!isPasswordValid) return null;
 
           return {
