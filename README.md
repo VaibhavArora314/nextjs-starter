@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Starter Kit
+Welcome to the Next.js Starter Kit—your go-to template for rapid development with Next.js. This starter kit integrates modern tools and best practices to help you get started quickly with a robust foundation.
 
-## Getting Started
+### Features
+- NextAuth.js Integration: Seamlessly handle authentication with providers like Google, GitHub, and custom credentials.
+- Prisma + PostgreSQL: Efficiently manage your database with Prisma ORM connected to a PostgreSQL instance.
+- TypeScript Support: Enjoy the benefits of static typing and type safety with TypeScript built-in.
+- Tailwind CSS: Rapidly build your UI with utility-first CSS classes, fully integrated and ready to use.
+- Docker & Docker Compose: Easily develop and deploy with Docker and Docker Compose, streamlining your containerization and orchestration processes.
 
-First, run the development server:
+### Getting Started
+- Clone the Repository:
+  ```bash
+  git clone https://github.com/VaibhavArora314/nextjs-starter.git
+  cd nextjs-starter
+  ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Set Up Environment Variables:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+  Copy the .env.example file to .env and adjust the values as needed. <br/>
+  For Google OAuth Credentials: [https://console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials) <br/>
+  For GitHub OAuth Credentials: [https://github.com/settings/apps](https://github.com/settings/apps) <br/>
+  (While creating a GitHub App, make sure that you keep the email address permission to read-only instead of no access)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Build and Run with Docker:
+  ```bash
+  docker compose watch
+  ```
+  This will build the Docker images and start the containers for both the app and the PostgreSQL database and also watch for any changes in the nextjs application and update in realtime.
+  ```bash
+  docker compose down
+  ```
+  This will stop your application by stoping all the containers running.
+- Build and Run without Docker:
+  
+  Create a postgres container or use your own postgres database and specify its url in .env
+  ```bash
+  docker run -d \
+  --name db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=db \
+  -p 5432:5432 \
+  postgres
+  ```
+  Now start your application
+  ```bash
+  npm install
+  npx prisma migrate dev
+  npm run dev
+  ```
+- Access the Application:
+  
+  Open your browser and go to http://localhost:3000 to view the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Contributing
+If you want to contribute to this project, please follow these steps:
+- Fork the repository.
+- Create a new branch (git checkout -b feature/your-feature).
+- Commit your changes (git commit -am 'Add some feature').
+- Push the branch (git push origin feature/your-feature).
+- Open a Pull Request.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### License
+This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
