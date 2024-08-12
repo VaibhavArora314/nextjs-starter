@@ -10,7 +10,7 @@ const AppBar = () => {
   const isAuthenticated = session && session.status === "authenticated";
 
   return (
-    <div className="bg-zinc-950 p-4">
+    <div className="bg-zinc-950 p-4 border-b-2 border-zinc-900">
       <div className="flex items-center justify-between mx-4">
         <span>
           <Link className="text-2xl text-gray-100 font-semibold" href="/">

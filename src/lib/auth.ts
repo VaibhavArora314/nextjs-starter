@@ -60,7 +60,7 @@ export const NEXT_AUTH_OPTIONS:AuthOptions = {
             }
           })
 
-          console.log(userInDb);
+          console.log(userInDb)
 
           if (!userInDb) {
             const randomPwdHash = await createHash(generateRandomString(20));
@@ -73,8 +73,10 @@ export const NEXT_AUTH_OPTIONS:AuthOptions = {
               }
             })
 
-            console.log("User created");
+            console.log(userInDb);
           }
+
+          user.id = userInDb.id;
         }
         return true
       },

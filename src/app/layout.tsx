@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + "min-h-screen bg-zinc-900"}>
+      <body className={inter.className + "min-h-screen bg-zinc-950"}>
         <Providers>
       <AppBar/>
           

@@ -12,7 +12,6 @@ export async function GET() {
     });
 
   return NextResponse.json({
-    id: session?.user?.id,
     email: session?.user?.email,
   });
 }
